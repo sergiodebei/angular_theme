@@ -39,25 +39,34 @@ var app = angular
 	})
 
 	.factory('sharedResources', function($http, $q) {
-	  
-		var factory_posts = 'wp-json/wp/v2/posts/';
+
+		var data = [ "wp-json/wp/v2/posts/", "wp-json/wp/v2/categories"];
 
 		return {
-		  	getPosts: function() {
-		    	return $http.get(factory_posts).then(function(response) {
-		      		return response.data;
-		    	});
-		  	}
-		}
+			getPosts: getPosts
+		};
 
+		function getPosts() {
+
+			// var promises = data.map(function (datum) {
+			// 	return $http.get(datum);
+			// })
+
+			// var taskCompletion = $q.all(promises);
+
+			// taskCompletion.then(function (responses) {
+			// 	list = responses[0].data;
+			// });
+
+		  	return data;
+		}
 	})
 
 	.controller('Init', function($scope, $http, $routeParams, $q, sharedResources){
 
-		// sharedResources.getPosts().then(function(response) {
-		//   	$scope.info = response;
-		//   	console.log(response);
-		// });
+		//test factory 
+		var data = sharedResources.getPosts();
+		console.log('data', data);
 
 		$scope.poster = '';
 
@@ -72,8 +81,6 @@ var app = angular
 	    taskCompletion.then(function (responses) {
 	    	$scope.poster = responses[0].data;
 	    });
-
-
 
 	})
 
